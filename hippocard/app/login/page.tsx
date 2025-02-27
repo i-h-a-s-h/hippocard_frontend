@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'node_modules/framer-motion';
+import { motion } from 'framer-motion';
 import PageTransition from '@/components/PageTransition';
 
 export default function LoginPage() {
@@ -43,29 +43,26 @@ export default function LoginPage() {
             {/* Left Column - Blue Section */}
             <div className="hidden md:flex md:w-[45%] bg-blue-600 items-center justify-center p-12 rounded-l-2xl my-8">
               <div className="max-w-md text-white">
-                <h1 className="text-2xl mb-4">Welcome to</h1>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="bg-white rounded-full p-3">
+                <h1 className="text-3xl font-light mb-8 tracking-wide">Welcome to</h1>
+                <div className="flex items-center gap-6">
+                  <div className="bg-white rounded-full p-3 shadow-[0_4px_20px_rgba(0,0,0,0.1)] transition-transform hover:scale-105">
                     <Image
                       src="/icon.png"
                       alt="HippoCard Logo"
-                      width={24}
-                      height={24}
-                      className="w-6 h-6"
+                      width={120}
+                      height={120}
+                      className="w-[120px] h-[120px]"
                     />
                   </div>
-                  <span className="text-3xl font-semibold">Spacer</span>
+                  <span className="text-5xl font-light tracking-wide">HippoCard</span>
                 </div>
-                <p className="text-blue-100 text-sm leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
               </div>
             </div>
 
             {/* Right Column - Form Section */}
             <div className="w-full md:w-[55%] flex items-center justify-center p-8 bg-white my-8 rounded-r-2xl">
-              <div className="w-full max-w-md">
-                <h2 className="text-2xl font-semibold mb-8 text-gray-900">
+              <div className="w-full max-w-md space-y-8">
+                <h2 className="text-2xl font-light mb-8 text-gray-900">
                   Create your account
                 </h2>
 
