@@ -9,7 +9,7 @@ export default function HomePage() {
   const navigationLinks = [
     {
       title: 'Patient',
-      href: '/patient',
+      href:'patient/page.tsx',
       description: 'Access your medical records'
     },
     {
