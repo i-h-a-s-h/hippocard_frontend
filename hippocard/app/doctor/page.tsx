@@ -1,11 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
+import { motion } from 'node_modules/framer-motion';
 
-export default function HomePage() {
+export default function DoctorPage() {
+  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Handle client-side mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const sidebarLinks = [
     {
@@ -14,48 +21,51 @@ export default function HomePage() {
         {
           title: 'Medical history',
           href: '/insurance',
-          icon: '📄'
+          icon: '📋'
         },
         {
           title: 'Prescription',
           href: '/profile',
-          icon: '🧰'
+          icon: '💊'
         }
-      ]
-    },
-    {
-      section: '',
-      items: [
-       
       ]
     }
   ];
 
+  // Return null on server-side
+  if (!mounted) {
+    return <div className="min-h-screen bg-gray-50"></div>;
+  }
+
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-gray-100 hidden md:block">
+    <motion.main 
+      className="min-h-screen bg-gray-50 flex"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Sidebar - Made more minimal */}
+      <aside className="w-64 bg-white border-r border-gray-100 hidden md:block">
         <div className="p-6">
-          <Link href="/" className="text-xl font-light text-black flex items-center">
-            <span className="text-2xl mr-2"></span>
-            Hippo<span className="font-bold">Card</span>
+          <Link href="/" className="text-xl font-light text-gray-800 flex items-center hover:text-blue-500 transition-colors">
+            hippo<span className="font-bold">card</span>
           </Link>
         </div>
         
-        <nav className="px-4">
+        <nav className="px-4 mt-6">
           {sidebarLinks.map((section) => (
             <div key={section.section} className="mb-8">
-              <h3 className="text-xs font-semibold text-gray-400 px-2 mb-2">
+              <h3 className="text-xs font-medium text-gray-400 px-2 mb-4">
                 {section.section}
               </h3>
               {section.items.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center space-x-2 px-2 py-2 rounded-lg text-black hover:bg-gray-50 transition-colors"
+                  className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-blue-500 transition-all mb-1"
                 >
-                  <span>{item.icon}</span>
-                  <span>{item.title}</span>
+                  <span className="text-lg">{item.icon}</span>
+                  <span className="font-medium">{item.title}</span>
                 </Link>
               ))}
             </div>
@@ -64,27 +74,27 @@ export default function HomePage() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1">
-        {/* Header */}
-        <header className="border-b border-gray-100 bg-white">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex justify-end items-center">
-              {/* Mobile menu button */}
+      <div className="flex-1 bg-white">
+        {/* Header - Simplified */}
+        <header className="bg-white border-b border-gray-100 sticky top-0 z-30">
+          <div className="px-6 py-4">
+            <div className="flex justify-between items-center">
+              {/* Mobile menu button - More minimal */}
               <button
                 className="md:hidden"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 <div className="space-y-1.5">
-                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-                  <span className={`block w-6 h-0.5 bg-black ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                  <span className={`block w-5 h-0.5 bg-gray-600 transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                  <span className={`block w-5 h-0.5 bg-gray-600 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                  <span className={`block w-5 h-0.5 bg-gray-600 transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
                 </div>
               </button>
 
-              {/* User Menu */}
+              {/* User Menu - More elegant */}
               <div className="flex items-center space-x-4">
-                <span className="text-black">Doctor Smith</span>
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-600">Dr. Smith</span>
+                <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center text-gray-600">
                   👤
                 </div>
               </div>
@@ -92,118 +102,115 @@ export default function HomePage() {
           </div>
         </header>
 
-        {/* Main Content Area */}
-        <main className="container mx-auto px-6 py-8">
-          {/* Top Actions Bar */}
+        {/* Main Content Area - Cleaner layout */}
+        <main className="px-6 py-8">
+          {/* Top Actions Bar - Simplified */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            {/* Search Box */}
+            {/* Search Box - More minimal */}
             <div className="relative w-full md:w-96">
               <input
                 type="text"
-                placeholder="Search health records..."
-                className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                placeholder="Search records..."
+                className="w-full px-4 py-2 pl-10 border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50 text-gray-600 placeholder-gray-400"
               />
-              <span className="absolute left-3 top-2.5">🔍</span>
+              <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
             </div>
 
-            {/* Action Buttons Group */}
-            <div className="flex items-center gap-4">
-              {/* Sort Dropdown */}
-              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black">
+            {/* Action Buttons - Cleaner design */}
+            <div className="flex items-center gap-3">
+              <select className="px-4 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50 text-gray-600">
                 <option value="">Sort by</option>
                 <option value="date">Date</option>
-                <option value="type">Record Type</option>
-                <option value="doctor">Doctor</option>
+                <option value="name">Name</option>
               </select>
 
-              {/* Filter Dropdown */}
-              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black">
-                <option value="">Filter by</option>
-                <option value="consultation">Consultation</option>
-                <option value="test">Test Results</option>
-                <option value="prescription">Prescriptions</option>
-              </select>
-
-              {/* Add New Record Button */}
               <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                + Add New Record
+                + New Record
               </button>
             </div>
           </div>
 
-          {/* Records Grid */}
+          {/* Records Grid - More elegant cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Sample Record Cards */}
-            <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
+            {/* Record Cards - Simplified design */}
+            <div className="bg-gray-50 p-5 rounded-xl hover:shadow-sm transition-shadow">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="font-semibold text-lg text-black">General Consultation</h3>
-                  <p className="text-black">Dr. Sarah Johnson</p>
+                  <h3 className="font-medium text-gray-800">General Consultation</h3>
+                  <p className="text-gray-500 text-sm">Dr. Sarah Johnson</p>
                 </div>
-                <span className="text-black">📄</span>
+                <span className="text-gray-400">📄</span>
               </div>
-              <div className="space-y-2">
-                <p className="text-sm text-black">Date: March 15, 2024</p>
-                <p className="text-sm text-black">Type: Regular Checkup</p>
-                <p className="text-sm text-black">Status: Completed</p>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">March 15, 2024</p>
+                <p className="text-sm text-gray-500">Regular Checkup</p>
+                <span className="inline-block px-2 py-1 text-xs bg-green-50 text-green-600 rounded-md">
+                  Completed
+                </span>
               </div>
             </div>
 
-            <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
+            <div className="bg-gray-50 p-5 rounded-xl hover:shadow-sm transition-shadow">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="font-semibold text-lg text-black">Blood Test Results</h3>
-                  <p className="text-black">Lab: Central Diagnostics</p>
+                  <h3 className="font-medium text-gray-800">Blood Test Results</h3>
+                  <p className="text-gray-500 text-sm">Central Diagnostics</p>
                 </div>
-                <span className="text-black">🧪</span>
+                <span className="text-gray-400">🧪</span>
               </div>
-              <div className="space-y-2">
-                <p className="text-sm text-black">Date: March 10, 2024</p>
-                <p className="text-sm text-black">Type: Laboratory Test</p>
-                <p className="text-sm text-black">Status: Available</p>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">March 10, 2024</p>
+                <p className="text-sm text-gray-500">Laboratory Test</p>
+                <span className="inline-block px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded-md">
+                  Available
+                </span>
               </div>
             </div>
-            
           </div>
         </main>
       </div>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Sidebar - Cleaner design */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-white z-50 md:hidden">
+        <motion.div 
+          className="fixed inset-0 bg-white z-50 md:hidden"
+          initial={{ x: '100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '100%' }}
+          transition={{ type: 'tween' }}
+        >
           <div className="p-6">
             <div className="flex justify-between items-center mb-8">
-              <Link href="/" className="text-xl font-light text-black flex items-center">
-                <span className="text-2xl mr-2">🛡️</span>
-                Medi<span className="font-bold">Vault</span>
+              <Link href="/" className="text-xl font-light text-gray-800">
+                hippo<span className="font-bold">card</span>
               </Link>
-              <button onClick={() => setIsMenuOpen(false)} className="text-black">
+              <button onClick={() => setIsMenuOpen(false)} className="text-gray-400 hover:text-gray-600">
                 ✕
               </button>
             </div>
             <nav>
               {sidebarLinks.map((section) => (
                 <div key={section.section} className="mb-8">
-                  <h3 className="text-xs font-semibold text-gray-400 mb-2">
+                  <h3 className="text-xs font-medium text-gray-400 mb-4">
                     {section.section}
                   </h3>
                   {section.items.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-center space-x-2 py-2 text-black"
+                      className="flex items-center space-x-3 py-2.5 text-gray-600 hover:text-blue-500"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <span>{item.icon}</span>
-                      <span>{item.title}</span>
+                      <span className="text-lg">{item.icon}</span>
+                      <span className="font-medium">{item.title}</span>
                     </Link>
                   ))}
                 </div>
               ))}
             </nav>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.main>
   );
 }
