@@ -2,215 +2,195 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'node_modules/framer-motion';
+import PageTransition from '@/components/PageTransition';
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const sidebarLinks = [
+  const navigationLinks = [
     {
-      section: 'DASHBOARD',
-      items: [
-        {
-          title: 'My Profile',
-          href: '/profile',
-          icon: '👤'
-        }
-      ]
+      title: 'Patient',
+      href: '/patient',
+      description: 'Access your medical records'
     },
     {
-      section: 'HEALTH RECORDS',
-      items: [
-        {
-          title: 'Insurance',
-          href: '/insurance',
-          icon: '📄'
-        },
-        {
-          title: 'Allergies',
-          href: '/allergies',
-          icon: '🌿'
-        },
-        {
-          title: 'Medical History',
-          href: '/medical-history',
-          icon: '📋'
-        },
-        {
-          title: 'Hospitalization History',
-          href: '/hospitalization',
-          icon: '🏥'
-        },
-        {
-          title: 'Checkup History',
-          href: '/checkup',
-          icon: '🔍'
-        }
-      ]
+      title: 'Doctor',
+      href: '/doctor',
+      description: 'Manage your patients'
     },
     {
-      section: 'AVAILABLE DOCTORS',
-      items: [
-        {
-          title: 'Doctors',
-          href: '/doctors',
-          icon: '👨‍⚕️'
-        }
-      ]
+      title: 'Pharmacy',
+      href: '/pharmacy',
+      description: 'Handle prescriptions'
+    },
+    {
+      title: 'Appointments',
+      href: '/appointments',
+      description: 'Schedule visits'
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-gray-100 hidden md:block">
-        <div className="p-6">
-          <Link href="/" className="text-xl font-light text-black flex items-center">
-            <span className="text-2xl mr-2">🛡️</span>
-            Medi<span className="font-bold">Vault</span>
-          </Link>
-        </div>
-        
-        <nav className="px-4">
-          {sidebarLinks.map((section) => (
-            <div key={section.section} className="mb-8">
-              <h3 className="text-xs font-semibold text-gray-400 px-2 mb-2">
-                {section.section}
-              </h3>
-              {section.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center space-x-2 px-2 py-2 rounded-lg text-black hover:bg-gray-50 transition-colors"
-                >
-                  <span>{item.icon}</span>
-                  <span>{item.title}</span>
-                </Link>
-              ))}
+    <div className="min-h-screen bg-white">
+      {/* Minimal Header */}
+      <header className="border-white border-b bg-white shadow-sm sticky top-0 z-50">
+        <nav className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <Link href="/" className="text-xl font-light text-black">
+              hippo<span className="font-bold">card</span>
+            </Link>
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+              type="button"
+            >
+              <div className="space-y-1.5">
+                <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                <span className={`block w-6 h-0.5 bg-black ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+              </div>
+            </button>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-8">
+              <Link href="/login" className="text-black hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
+                Login
+              </Link>
+              <Link href="/register" className="text-black hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
+                Register
+              </Link>
             </div>
-          ))}
+          </div>
+
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pb-4">
+              <Link href="/login" className="block py-2 text-black hover:bg-gray-50 rounded-lg px-4">
+                Login
+              </Link>
+              <Link href="/register" className="block py-2 text-black hover:bg-gray-50 rounded-lg px-4">
+                Register
+              </Link>
+            </div>
+          )}
         </nav>
-      </aside>
+      </header>
 
       {/* Main Content */}
-      <div className="flex-1">
-        {/* Header */}
-        <header className="border-b border-gray-100 bg-white">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex justify-end items-center">
-              {/* Mobile menu button */}
-              <button
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+      <motion.main 
+        className="container mx-auto px-6"
+        variants={containerVariants}
+      >
+        {/* Hero Section */}
+        <motion.section 
+          className="py-20 max-w-3xl mx-auto"
+          variants={itemVariants}
+        >
+          <h1 className="text-4xl font-light mb-6 text-black">
+            Streamlined healthcare management for everyone
+          </h1>
+          <p className="text-black mb-12">
+            Access and manage your medical records, prescriptions, and appointments in one secure place.
+          </p>
+        </motion.section>
+
+        {/* Navigation Cards */}
+        <motion.section 
+          className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto py-12"
+          variants={containerVariants}
+        >
+          {navigationLinks.map((link) => (
+            <motion.div
+              key={link.href}
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link
+                href={link.href}
+                className="group p-6 bg-white border border-gray-100 hover:bg-gray-50 hover:border-gray-200 transition-all duration-300 rounded-lg block"
               >
-                <div className="space-y-1.5">
-                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-                  <span className={`block w-6 h-0.5 bg-black ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-                </div>
-              </button>
-
-              {/* User Menu */}
-              <div className="flex items-center space-x-4">
-                <span className="text-black">Hi, test</span>
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                  👤
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content Area */}
-        <main className="container mx-auto px-6 py-8">
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-gray-50 rounded-lg p-8">
-              <h2 className="text-2xl font-light mb-6 text-black">User Profile</h2>
-              
-              <form className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1 flex-1">
-                    <label className="text-sm text-black">Name:</label>
-                    <div className="flex items-center justify-between">
-                      <span className="text-black">test</span>
-                      <button type="button" className="text-black hover:bg-gray-100 p-1 rounded">
-                        ✏️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1 flex-1">
-                    <label className="text-sm text-black">Email:</label>
-                    <div className="flex items-center justify-between">
-                      <span className="text-black">testp@gmail.com</span>
-                      <button type="button" className="text-black hover:bg-gray-100 p-1 rounded">
-                        ✏️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1 flex-1">
-                    <label className="text-sm text-black">Password:</label>
-                    <div className="flex items-center justify-between">
-                      <span className="text-black">•••</span>
-                      <button type="button" className="text-black hover:bg-gray-100 p-1 rounded">
-                        ✏️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="bg-cyan-400 text-white px-6 py-2 rounded-lg hover:bg-cyan-500 transition-colors"
-                >
-                  Save
-                </button>
-              </form>
-            </div>
-          </div>
-        </main>
-      </div>
-
-      {/* Mobile Sidebar */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-white z-50 md:hidden">
-          <div className="p-6">
-            <div className="flex justify-between items-center mb-8">
-              <Link href="/" className="text-xl font-light text-black flex items-center">
-                <span className="text-2xl mr-2">🛡️</span>
-                Medi<span className="font-bold">Vault</span>
+                <h2 className="text-xl mb-2 text-black">
+                  {link.title}
+                  <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                </h2>
+                <p className="text-black text-sm">{link.description}</p>
               </Link>
-              <button onClick={() => setIsMenuOpen(false)} className="text-black">
-                ✕
-              </button>
+            </motion.div>
+          ))}
+        </motion.section>
+
+        {/* Features Section */}
+        <motion.section 
+          className="py-20 border-t border-gray-100"
+          variants={itemVariants}
+        >
+          <div className="grid md:grid-cols-3 gap-12 max-w-4xl mx-auto">
+            <div className="p-6 bg-gray-50 rounded-lg">
+              <h3 className="text-lg mb-2 text-black">Secure</h3>
+              <p className="text-sm text-black">
+                Protected with industry-leading security measures
+              </p>
             </div>
-            <nav>
-              {sidebarLinks.map((section) => (
-                <div key={section.section} className="mb-8">
-                  <h3 className="text-xs font-semibold text-gray-400 mb-2">
-                    {section.section}
-                  </h3>
-                  {section.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center space-x-2 py-2 text-black"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <span>{item.icon}</span>
-                      <span>{item.title}</span>
-                    </Link>
-                  ))}
-                </div>
-              ))}
-            </nav>
+            <div className="p-6 bg-gray-50 rounded-lg">
+              <h3 className="text-lg mb-2 text-black">Simple</h3>
+              <p className="text-sm text-black">
+                Intuitive interface for seamless navigation
+              </p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-lg">
+              <h3 className="text-lg mb-2 text-black">Connected</h3>
+              <p className="text-sm text-black">
+                Unified platform for all healthcare needs
+              </p>
+            </div>
+          </div>
+        </motion.section>
+      </motion.main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-gray-50">
+        <div className="container mx-auto px-6 py-12">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm text-black">
+              © {new Date().getFullYear()} HippoCard
+            </div>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/about" className="text-sm text-black hover:bg-white px-4 py-2 rounded-lg transition-colors">
+                About
+              </Link>
+              <Link href="/privacy" className="text-sm text-black hover:bg-white px-4 py-2 rounded-lg transition-colors">
+                Privacy
+              </Link>
+              <Link href="/terms" className="text-sm text-black hover:bg-white px-4 py-2 rounded-lg transition-colors">
+                Terms
+              </Link>
+            </div>
           </div>
         </div>
-      )}
+      </footer>
     </div>
   );
 }

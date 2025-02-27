@@ -8,20 +8,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Hippocard",
-  description: "",
+  title: "HippoCard",
+  description: "Healthcare Management System",
   keywords: "",
   authors: [{ name: "" }],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+      <body className={`${inter.variable} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 } 
