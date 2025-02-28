@@ -70,7 +70,7 @@ export default function LoginPage() {
           type="text"
           value={uid}
           onChange={(e) => setUid(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2389DA] text-gray-900"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
           placeholder={`Enter your ${uidLabels[userType as keyof typeof uidLabels]}`}
           required
         />
@@ -87,13 +87,13 @@ export default function LoginPage() {
       <PageTransition>
         <motion.div className="min-h-screen bg-gray-50 flex flex-col relative overflow-hidden">
           {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-radial from-[#2389DA]/5 to-transparent animate-pulse-slow" />
+          <div className="absolute inset-0 bg-gradient-radial from-black/5 to-transparent animate-pulse-slow" />
 
           {/* Floating Medical Icons */}
           {decorativeIcons.map(({ Icon, position, delay }, index) => (
             <div
               key={index}
-              className={`absolute ${position} text-[#2389DA]/10 hidden md:block animate-float`}
+              className={`absolute ${position} text-black/10 hidden md:block animate-float`}
               style={{ animationDelay: `${delay}s` }}
             >
               <Icon className="w-12 h-12" />
@@ -129,7 +129,7 @@ export default function LoginPage() {
           <main className="flex-1 container mx-auto pt-8 relative z-10">
             <div className="flex min-h-[calc(100vh-8rem)]">
               {/* Left Column */}
-              <div className="hidden md:flex md:w-[45%] bg-[#2389DA] items-center justify-center p-12 rounded-l-2xl my-8 relative overflow-hidden">
+              <div className="hidden md:flex md:w-[45%] bg-black items-center justify-center p-12 rounded-l-2xl my-8 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10 animate-float">
                   {/* Medical Pattern Overlay */}
                   <div className="absolute inset-0" 
@@ -183,8 +183,8 @@ export default function LoginPage() {
                               onClick={() => setUserType(type.id)}
                               className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
                                 userType === type.id
-                                  ? 'border-[#2389DA] bg-[#EBF5FC] text-[#2389DA]'
-                                  : 'border-gray-200 hover:border-[#2389DA]/50'
+                                  ? 'border-black bg-gray-100 text-black'
+                                  : 'border-gray-200 hover:border-black/50'
                               }`}
                             >
                               <Icon className="w-8 h-8 mb-2" />
@@ -204,7 +204,7 @@ export default function LoginPage() {
                       <input
                         id="name"
                         type="text"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2389DA] text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                         placeholder="Enter your name"
                         required
                       />
@@ -219,7 +219,7 @@ export default function LoginPage() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2389DA] text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                         placeholder="Enter your email"
                         required
                       />
@@ -234,7 +234,7 @@ export default function LoginPage() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2389DA] text-gray-900"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                         placeholder="Enter your password"
                         required
                       />
@@ -246,24 +246,24 @@ export default function LoginPage() {
                         type="checkbox"
                         checked={agreeToTerms}
                         onChange={(e) => setAgreeToTerms(e.target.checked)}
-                        className="h-4 w-4 text-[#2389DA] focus:ring-[#2389DA] border-gray-300 rounded"
+                        className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
                       />
                       <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
-                        By signing up I agree to the <Link href="/terms" className="text-[#2389DA] hover:text-[#1B6FB1]">Terms & Conditions</Link>
+                        By signing up I agree to the <Link href="/terms" className="text-black hover:text-gray-700">Terms & Conditions</Link>
                       </label>
                     </div>
 
                     <div className="space-y-4">
                       <button
                         type="submit"
-                        className="w-full bg-[#2389DA] text-white py-3 px-4 rounded-lg hover:bg-[#1B6FB1] transition-colors font-medium"
+                        className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium"
                       >
                         Sign Up
                       </button>
 
                       <p className="text-center text-sm text-gray-600">
                         Already have an account?{' '}
-                        <Link href="/login" className="text-[#2389DA] hover:text-[#1B6FB1] font-medium">
+                        <Link href="/login" className="text-black hover:text-gray-700 font-medium">
                           Sign In
                         </Link>
                       </p>

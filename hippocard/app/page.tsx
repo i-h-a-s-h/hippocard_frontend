@@ -1,13 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
-import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills } from 'react-icons/fa';
+import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills } from 'node_modules/react-icons/fa';
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const navigationLinks = [
     {
