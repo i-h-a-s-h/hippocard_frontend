@@ -313,7 +313,7 @@ export default function DoctorDashboard() {
               <FaPlus className="w-4 h-4" />
               Add {activeTab === 'history' ? 'History' : 'Prescription'}
             </button>
-          </div>
+            </div>
 
           {/* Refined Search and Filters */}
           <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm mb-8">
@@ -366,7 +366,7 @@ export default function DoctorDashboard() {
                 )}
               </select>
             </div>
-          </div>
+                      </div>
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -385,7 +385,7 @@ export default function DoctorDashboard() {
                   }`}
                 >
                   <div className="flex justify-between items-start mb-4">
-                    <div>
+                      <div>
                       <h3 className="text-lg font-semibold text-black">{history.diagnosis}</h3>
                       <p className="text-sm text-black">{history.date}</p>
                     </div>
@@ -439,10 +439,10 @@ export default function DoctorDashboard() {
                         <div className="text-sm text-black mt-1">
                           <p>Dosage: {medicine.dosage}</p>
                           <p>Duration: {medicine.duration}</p>
-                        </div>
-                      </div>
-                    ))}
                   </div>
+                </div>
+              ))}
+            </div>
                 </motion.div>
               ))
             )}
@@ -498,7 +498,7 @@ export default function DoctorDashboard() {
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
                       required
                     />
-                  </div>
+                </div>
 
                   <div>
                     <label className="block text-sm font-medium text-black mb-2">
@@ -514,7 +514,7 @@ export default function DoctorDashboard() {
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
                       required
                     />
-                  </div>
+              </div>
 
                   <div>
                     <label className="block text-sm font-medium text-black mb-2">
@@ -691,7 +691,7 @@ export default function DoctorDashboard() {
                     >
                       Save Prescription
                     </button>
-                  </div>
+              </div>
                 </form>
               </motion.div>
             </div>

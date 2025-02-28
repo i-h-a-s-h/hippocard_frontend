@@ -14,6 +14,7 @@ import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills, FaHeartbeat, FaNotesMe
 import { GiDna1, GiMedicalDrip, GiMedicalPack, GiMedicines, GiHeartOrgan,
          GiLungs, GiBrain, GiStomach, GiKidneys, GiSpain } from 'node_modules/react-icons/gi';
 import { RiVirusLine, RiMentalHealthLine, RiHospitalLine, RiHealthBookLine } from 'node_modules/react-icons/ri';
+import { useRouter } from 'next/navigation';
 
 const features = [
   {
@@ -114,6 +115,7 @@ const decorativeIcons = [
 };
 
 export default function HomePage() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
@@ -140,6 +142,10 @@ export default function HomePage() {
       rgba(45, 212, 191, 0.01) 75%, 
       transparent 100%)`,
     animation: 'pulse 4s ease-in-out infinite'
+  };
+
+  const handleGetStarted = () => {
+    router.push('/register');
   };
 
   return (
@@ -245,21 +251,23 @@ export default function HomePage() {
               <h1 className="text-5xl font-light mb-6 text-gray-900 leading-tight">
                 Streamlined healthcare management
                 <span className="block text-teal-600 font-medium">for everyone</span>
-          </h1>
+              </h1>
               <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Access and manage your medical records, prescriptions, and appointments in one secure place.
-          </p>
+                Access and manage your medical records, prescriptions, and appointments in one secure place.
+              </p>
               <div className="flex justify-center gap-6">
                 <motion.button
+                  onClick={handleGetStarted}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                  className="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-lg font-medium"
                 >
                   Get Started
+                  <span className="ml-2">→</span>
                 </motion.button>
               </div>
             </motion.div>
-        </motion.section>
+          </motion.section>
 
           {/* Animated Stats Section */}
         <motion.section 
