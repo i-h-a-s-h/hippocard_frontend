@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
 import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills, FaHeartbeat, FaNotesMedical, 
          FaTablets, FaStethoscope, FaBriefcaseMedical, FaDna, FaLungs, FaBrain, 
@@ -10,10 +10,10 @@ import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills, FaHeartbeat, FaNotesMe
          FaFlask, FaMicroscope, FaXRay, FaThermometerHalf, FaHospitalSymbol,
          FaUserNurse, FaHandHoldingMedical, FaFileMedical, FaHeadSideMask,
          FaBookMedical, FaVial, FaCapsules, FaTooth,
-         FaShieldAlt, FaRegLightbulb, FaNetworkWired } from 'react-icons/fa';
+         FaShieldAlt, FaRegLightbulb, FaNetworkWired } from 'node_modules/react-icons/fa';
 import { GiDna1, GiMedicalDrip, GiMedicalPack, GiMedicines, GiHeartOrgan,
-         GiLungs, GiBrain, GiStomach, GiKidneys, GiSpain } from 'react-icons/gi';
-import { RiVirusLine, RiMentalHealthLine, RiHospitalLine, RiHealthBookLine } from 'react-icons/ri';
+         GiLungs, GiBrain, GiStomach, GiKidneys, GiSpain } from 'node_modules/react-icons/gi';
+import { RiVirusLine, RiMentalHealthLine, RiHospitalLine, RiHealthBookLine } from 'node_modules/react-icons/ri';
 
 const features = [
   {

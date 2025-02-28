@@ -3,15 +3,16 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
-import { FaUserInjured, FaUserMd, FaHospital, FaClinicMedical, FaHeartbeat, FaNotesMedical, FaTablets, FaStethoscope, FaBriefcaseMedical, FaDna, FaLungs, FaBrain, FaVirus, FaAmbulance, FaSyringe, FaHospitalUser, FaBandAid, FaPrescription, FaFlask, FaMicroscope, FaXRay, FaThermometerHalf, FaHeadSideMask, FaHandHoldingMedical } from 'react-icons/fa';
-import { GiDna1, GiMedicalDrip, GiMedicalPack, GiMedicines } from 'react-icons/gi';
-import { RiVirusLine, RiMentalHealthLine } from 'react-icons/ri';
+import { FaUserInjured, FaUserMd, FaHospital, FaClinicMedical, FaHeartbeat, FaNotesMedical, FaTablets, FaStethoscope, FaBriefcaseMedical, FaDna, FaLungs, FaBrain, FaVirus, FaAmbulance, FaSyringe, FaHospitalUser, FaBandAid, FaPrescription, FaFlask, FaMicroscope, FaXRay, FaThermometerHalf, FaHeadSideMask, FaHandHoldingMedical } from 'node_modules/react-icons/fa';
+import { GiDna1, GiMedicalDrip, GiMedicalPack, GiMedicines } from 'node_modules/react-icons/gi';
+import { RiVirusLine, RiMentalHealthLine } from 'node_modules/react-icons/ri';
 
 export default function LoginPage() {
   const [mounted, setMounted] = useState(false);
   const [userType, setUserType] = useState('patient');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [uid, setUid] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -233,11 +234,7 @@ export default function LoginPage() {
                               className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
                                 userType === type.id
                                   ? 'border-teal-600 bg-teal-50 text-teal-600'
-
                                   : 'border-gray-200 hover:border-teal-600/50'
-
-                                  : 'border-gray-200 hover:border-teal-400'
-
                               }`}
                             >
                               <Icon className="w-8 h-8 mb-2" />
@@ -251,23 +248,8 @@ export default function LoginPage() {
                     {renderUidField()}
 
                     <div>
-
-
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                        Name
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900"
-                        placeholder="Enter your name"
-                        required
-                      />
-                    </div>
-
-                    <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                        E-mail Address
+                        Email
                       </label>
                       <input
                         id="email"
@@ -281,7 +263,6 @@ export default function LoginPage() {
                     </div>
 
                     <div>
-
                       <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                         Password
                       </label>
@@ -296,36 +277,22 @@ export default function LoginPage() {
                       />
                     </div>
 
-
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <input
-                          id="remember-me"
+                          id="remember"
                           type="checkbox"
                           checked={rememberMe}
                           onChange={(e) => setRememberMe(e.target.checked)}
                           className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-gray-300 rounded"
                         />
-                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600">
+                        <label htmlFor="remember" className="ml-2 block text-sm text-gray-600">
                           Remember me
                         </label>
                       </div>
                       <Link href="/forgot-password" className="text-sm text-teal-600 hover:text-teal-700">
                         Forgot password?
                       </Link>
-
-                    <div className="flex items-center">
-                      <input
-                        id="terms"
-                        type="checkbox"
-                        checked={agreeToTerms}
-                        onChange={(e) => setAgreeToTerms(e.target.checked)}
-                        className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-gray-300 rounded"
-                      />
-                      <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
-                        By signing up I agree to the <Link href="/terms" className="text-teal-600 hover:text-teal-700">Terms & Conditions</Link>
-                      </label>
-
                     </div>
 
                     <div className="space-y-4">
@@ -337,15 +304,9 @@ export default function LoginPage() {
                       </button>
 
                       <p className="text-center text-sm text-gray-600">
-
                         Don't have an account?{' '}
                         <Link href="/register" className="text-teal-600 hover:text-teal-700 font-medium">
                           Sign Up
-
-                        Already have an account?{' '}
-                        <Link href="/login" className="text-teal-600 hover:text-teal-700 font-medium">
-                          Sign In
-
                         </Link>
                       </p>
                     </div>
