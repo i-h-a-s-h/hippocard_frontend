@@ -251,10 +251,10 @@ export default function HomePage() {
               <h1 className="text-5xl font-light mb-6 text-gray-900 leading-tight">
                 Streamlined healthcare management
                 <span className="block text-teal-600 font-medium">for everyone</span>
-              </h1>
+          </h1>
               <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-                Access and manage your medical records, prescriptions, and appointments in one secure place.
-              </p>
+            Access and manage your medical records, prescriptions, and appointments in one secure place.
+          </p>
               <div className="flex justify-center gap-6">
                 <motion.button
                   onClick={handleGetStarted}
@@ -267,7 +267,7 @@ export default function HomePage() {
                 </motion.button>
               </div>
             </motion.div>
-          </motion.section>
+        </motion.section>
 
           {/* Animated Stats Section */}
         <motion.section 
@@ -419,8 +419,8 @@ export default function HomePage() {
                   Unified platform connecting all your healthcare needs
                 </p>
               </motion.div>
-            </div>
-          </motion.section>
+          </div>
+        </motion.section>
       </motion.main>
 
       {/* Footer */}

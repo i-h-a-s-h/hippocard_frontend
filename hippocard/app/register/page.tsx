@@ -146,10 +146,14 @@ export default function RegisterPage() {
                     className={`p-4 rounded-xl border-2 transition-all duration-300 ${
                       userType === type.id 
                         ? 'border-teal-600 bg-teal-50 text-teal-600' 
-                        : 'border-gray-200 hover:border-teal-600/50'
+                        : 'border-gray-200 bg-gray-100 text-gray-700 hover:border-teal-600/50'
                     }`}
                   >
-                    <type.icon className="w-6 h-6 mx-auto mb-2" />
+                    <type.icon className={`w-6 h-6 mx-auto mb-2 ${
+                      userType === type.id 
+                        ? 'text-teal-600' 
+                        : 'text-gray-600'
+                    }`} />
                     <span className="text-sm font-medium">{type.label}</span>
                   </motion.button>
                 ))}
