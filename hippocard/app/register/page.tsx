@@ -6,12 +6,12 @@ import Image from 'next/image';
 import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [userType, setUserType] = useState('patient');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [uid, setUid] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
