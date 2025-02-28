@@ -233,7 +233,11 @@ export default function LoginPage() {
                               className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
                                 userType === type.id
                                   ? 'border-teal-600 bg-teal-50 text-teal-600'
+
                                   : 'border-gray-200 hover:border-teal-600/50'
+
+                                  : 'border-gray-200 hover:border-teal-400'
+
                               }`}
                             >
                               <Icon className="w-8 h-8 mb-2" />
@@ -247,6 +251,37 @@ export default function LoginPage() {
                     {renderUidField()}
 
                     <div>
+
+
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900"
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                        E-mail Address
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900"
+                        placeholder="Enter your email"
+                        required
+                      />
+                    </div>
+
+                    <div>
+
                       <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                         Password
                       </label>
@@ -260,6 +295,7 @@ export default function LoginPage() {
                         required
                       />
                     </div>
+
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
@@ -277,6 +313,19 @@ export default function LoginPage() {
                       <Link href="/forgot-password" className="text-sm text-teal-600 hover:text-teal-700">
                         Forgot password?
                       </Link>
+
+                    <div className="flex items-center">
+                      <input
+                        id="terms"
+                        type="checkbox"
+                        checked={agreeToTerms}
+                        onChange={(e) => setAgreeToTerms(e.target.checked)}
+                        className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-gray-300 rounded"
+                      />
+                      <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
+                        By signing up I agree to the <Link href="/terms" className="text-teal-600 hover:text-teal-700">Terms & Conditions</Link>
+                      </label>
+
                     </div>
 
                     <div className="space-y-4">
@@ -288,9 +337,15 @@ export default function LoginPage() {
                       </button>
 
                       <p className="text-center text-sm text-gray-600">
+
                         Don't have an account?{' '}
                         <Link href="/register" className="text-teal-600 hover:text-teal-700 font-medium">
                           Sign Up
+
+                        Already have an account?{' '}
+                        <Link href="/login" className="text-teal-600 hover:text-teal-700 font-medium">
+                          Sign In
+
                         </Link>
                       </p>
                     </div>

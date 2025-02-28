@@ -237,7 +237,11 @@ export default function RegisterPage() {
                               className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
                                 userType === type.id
                                   ? 'border-teal-600 bg-teal-50 text-teal-600'
+
                                   : 'border-gray-200 hover:border-teal-600/50'
+
+                                  : 'border-gray-200 hover:border-teal-400'
+
                               }`}
                             >
                               <Icon className="w-8 h-8 mb-2" />
@@ -252,11 +256,19 @@ export default function RegisterPage() {
 
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+
                   Name
                 </label>
                 <input
                   id="name"
                   type="text"
+
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900"
                         placeholder="Enter your name"
                   required
@@ -293,6 +305,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+
               <div className="flex items-center">
                 <input
                   id="terms"
@@ -311,6 +324,26 @@ export default function RegisterPage() {
                   type="submit"
                         className="w-full bg-teal-600 text-white py-3 px-4 rounded-lg hover:bg-teal-700 transition-colors font-medium"
                 >
+
+                    <div className="flex items-center">
+                      <input
+                        id="terms"
+                        type="checkbox"
+                        checked={agreeToTerms}
+                        onChange={(e) => setAgreeToTerms(e.target.checked)}
+                        className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-gray-300 rounded"
+                      />
+                      <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
+                        By signing up I agree to the <Link href="/terms" className="text-teal-600 hover:text-teal-700">Terms & Conditions</Link>
+                      </label>
+                    </div>
+
+                    <div className="space-y-4">
+                      <button
+                        type="submit"
+                        className="w-full bg-teal-600 text-white py-3 px-4 rounded-lg hover:bg-teal-700 transition-colors font-medium"
+                      >
+
                         Sign Up
                 </button>
 
