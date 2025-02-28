@@ -1,18 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
-import { FaUserInjured, FaUserMd, FaHospital, FaClinicMedical, FaHeartbeat, FaNotesMedical, FaTablets, FaStethoscope, FaBriefcaseMedical, FaDna, FaLungs, FaBrain, FaVirus, FaAmbulance } from 'react-icons/fa';
+import { FaUserInjured, FaUserMd, FaHospital, FaClinicMedical, FaHeartbeat, FaNotesMedical, FaTablets, FaStethoscope, FaBriefcaseMedical, FaDna, FaLungs, FaBrain, FaVirus, FaAmbulance } from 'node_modules/react-icons/fa';
 
 export default function LoginPage() {
+  const [mounted, setMounted] = useState(false);
   const [userType, setUserType] = useState('patient');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [uid, setUid] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const userTypes = [
     { id: 'patient', icon: FaUserInjured, label: 'Patient' },
@@ -33,6 +36,16 @@ export default function LoginPage() {
     { Icon: FaVirus, position: 'bottom-1/3 left-1/4', delay: 1.6 },
     { Icon: FaAmbulance, position: 'top-2/3 right-1/4', delay: 1.8 },
   ];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-gray-50" />;
+  }
+
+  const currentType = userTypes.find(type => type.id === userType) || userTypes[0];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,21 +96,26 @@ export default function LoginPage() {
         ))}
 
         {/* Header with logo */}
-        <header className="border-white border-b bg-white shadow-sm relative z-10">
-          <nav className="container mx-auto px-6 py-2">
+        <header className="border-white border-b bg-white shadow-sm sticky top-0 z-50">
+          <nav className="container mx-auto px-6 py-4">
             <div className="flex justify-between items-center">
-              <Link href="/" className="flex items-center relative -bottom-6">
-                <div className="animate-float">
-                  <Image
-                    src="/icon.png"
-                    alt="HippoCard Logo"
-                    width={120}
-                    height={120}
-                    className="w-[120px] h-[120px]"
-                    priority
-                  />
-                </div>
+              <Link href="/" className="text-xl font-light text-black">
+                hippo<span className="font-bold">card</span>
               </Link>
+
+              {/* Mobile menu button */}
+              <button
+                className="md:hidden"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+                type="button"
+              >
+                <div className="space-y-1.5">
+                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+                  <span className={`block w-6 h-0.5 bg-black ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                  <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+                </div>
+              </button>
             </div>
           </nav>
         </header>
