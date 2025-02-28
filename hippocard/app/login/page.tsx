@@ -138,7 +138,6 @@ export default function LoginPage() {
             {/* Right Column */}
             <div className="w-full md:w-[55%] flex items-center justify-center p-8 bg-white my-8 rounded-r-2xl relative">
               {/* Form glow effect */}
-              <div className="absolute inset-0 rounded-r-2xl bg-gradient-to-r from-[#2389DA]/5 to-transparent animate-pulse-slow" />
               
               {/* Existing Form Content */}
               <div className="w-full max-w-md space-y-8">
