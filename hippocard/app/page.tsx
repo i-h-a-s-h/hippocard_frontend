@@ -49,8 +49,8 @@ const stats = [
   { value: "24/7", label: "Support Available", icon: FaHandHoldingMedical }
 ];
 
-const navigationLinks = [
-  {
+  const navigationLinks = [
+    {
     title: 'Patient Portal',
     href: '/patient/page.tsx',
     description: 'View health records, appointments, and test results',
@@ -95,22 +95,22 @@ const decorativeIcons = [
   { Icon: GiSpain, position: 'bottom-1/3 right-1/4', delay: 3.0, animation: 'animate-float' }
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
-  }
-};
+  };
 
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1
-  }
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
 };
 
 export default function HomePage() {
@@ -159,7 +159,7 @@ export default function HomePage() {
 
         {/* Floating Medical Icons with Enhanced Animations */}
         {decorativeIcons.map(({ Icon, position, delay, animation }, index) => (
-          <motion.div
+    <motion.div 
             key={index}
             className={`absolute ${position} text-teal-500/10 hidden md:block ${animation}`}
             initial={{ opacity: 0, scale: 0 }}
@@ -187,54 +187,54 @@ export default function HomePage() {
 
         {/* Header with logo */}
         <header className="border-white border-b bg-white shadow-sm sticky top-0 z-50">
-          <nav className="container mx-auto px-6 py-4">
-            <div className="flex justify-between items-center">
+        <nav className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
               <Link href="/" className="text-xl font-light text-teal-600">
-                hippo<span className="font-bold">card</span>
-              </Link>
+              hippo<span className="font-bold">card</span>
+            </Link>
 
-              {/* Mobile menu button */}
-              <button
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label="Toggle menu"
                 type="button"
-              >
-                <div className="space-y-1.5">
+            >
+              <div className="space-y-1.5">
                   <span className={`block w-6 h-0.5 bg-teal-600 transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
                   <span className={`block w-6 h-0.5 bg-teal-600 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
                   <span className={`block w-6 h-0.5 bg-teal-600 transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-                </div>
-              </button>
+              </div>
+            </button>
 
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex space-x-8">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-8">
                 <Link href="/login" className="text-teal-600 hover:bg-teal-600 hover:text-white px-4 py-2 rounded-lg transition-colors">
-                  Login
-                </Link>
+                Login
+              </Link>
                 <Link href="/register" className="text-teal-600 hover:bg-teal-600 hover:text-white px-4 py-2 rounded-lg transition-colors">
-                  Register
-                </Link>
-              </div>
+                Register
+              </Link>
             </div>
+          </div>
 
-            {/* Mobile Navigation */}
-            {isMenuOpen && (
-              <div className="md:hidden mt-4 pb-4">
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pb-4">
                 <Link href="/login" className="block py-2 text-teal-600 hover:bg-teal-600 hover:text-white rounded-lg px-4">
-                  Login
-                </Link>
+                Login
+              </Link>
                 <Link href="/register" className="block py-2 text-teal-600 hover:bg-teal-600 hover:text-white rounded-lg px-4">
-                  Register
-                </Link>
-              </div>
-            )}
-          </nav>
-        </header>
+                Register
+              </Link>
+            </div>
+          )}
+        </nav>
+      </header>
 
-        {/* Main Content */}
+      {/* Main Content */}
         <motion.main className="container mx-auto px-6 relative z-10" variants={containerVariants}>
-          {/* Hero Section */}
+        {/* Hero Section */}
           <motion.section className="py-20 max-w-4xl mx-auto text-center" variants={itemVariants}>
             <motion.div
               initial={{ scale: 0.95 }}
@@ -245,10 +245,10 @@ export default function HomePage() {
               <h1 className="text-5xl font-light mb-6 text-gray-900 leading-tight">
                 Streamlined healthcare management
                 <span className="block text-teal-600 font-medium">for everyone</span>
-              </h1>
+          </h1>
               <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-                Access and manage your medical records, prescriptions, and appointments in one secure place.
-              </p>
+            Access and manage your medical records, prescriptions, and appointments in one secure place.
+          </p>
               <div className="flex justify-center gap-6">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -266,10 +266,10 @@ export default function HomePage() {
                 </motion.button>
               </div>
             </motion.div>
-          </motion.section>
+        </motion.section>
 
           {/* Animated Stats Section */}
-          <motion.section 
+        <motion.section 
             className="py-16 bg-white rounded-2xl shadow-lg mb-20"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -364,26 +364,26 @@ export default function HomePage() {
               Access Your Healthcare Services
             </h2>
             {navigationLinks.map((link) => (
-              <motion.div
-                key={link.href}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href={link.href}
+            <motion.div
+              key={link.href}
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Link
+                href={link.href}
                   className="group p-6 bg-white border border-gray-100 hover:border-teal-600 transition-all duration-300 rounded-lg block"
-                >
+              >
                   {link.icon}
                   <h2 className="text-xl mb-2 text-gray-900 group-hover:text-teal-600">
-                    {link.title}
-                    <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                  </h2>
+                  {link.title}
+                  <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                </h2>
                   <p className="text-gray-600 text-sm">{link.description}</p>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.section>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.section>
 
           {/* Enhanced Features Grid */}
           <motion.section className="py-20 border-t border-gray-100" variants={itemVariants}>
@@ -436,30 +436,30 @@ export default function HomePage() {
             >
               Create Account
             </motion.button>
-          </motion.section>
-        </motion.main>
+        </motion.section>
+      </motion.main>
 
-        {/* Footer */}
+      {/* Footer */}
         <footer className="border-t border-gray-100 bg-gray-50 relative z-10">
-          <div className="container mx-auto px-6 py-12">
-            <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="container mx-auto px-6 py-12">
+          <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-sm text-teal-600">
-                © {new Date().getFullYear()} HippoCard
-              </div>
-              <div className="flex space-x-6 mt-4 md:mt-0">
+              © {new Date().getFullYear()} HippoCard
+            </div>
+            <div className="flex space-x-6 mt-4 md:mt-0">
                 <Link href="/about" className="text-sm text-teal-600 hover:bg-white hover:text-teal-700 px-4 py-2 rounded-lg transition-colors">
-                  About
-                </Link>
+                About
+              </Link>
                 <Link href="/privacy" className="text-sm text-teal-600 hover:bg-white hover:text-teal-700 px-4 py-2 rounded-lg transition-colors">
-                  Privacy
-                </Link>
+                Privacy
+              </Link>
                 <Link href="/terms" className="text-sm text-teal-600 hover:bg-white hover:text-teal-700 px-4 py-2 rounded-lg transition-colors">
-                  Terms
-                </Link>
-              </div>
+                Terms
+              </Link>
             </div>
           </div>
-        </footer>
+        </div>
+      </footer>
       </div>
 
       {/* Add these keyframe animations to your global CSS */}

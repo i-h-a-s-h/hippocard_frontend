@@ -4,144 +4,173 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
-import { FaUserInjured, FaUserMd, FaHospitalAlt, FaPills } from 'node_modules/react-icons/fa';
+import { FaUserInjured, FaHistory, FaPrescription, FaSearch, FaFilter, FaPlus, 
+         FaCalendarAlt, FaClock, FaHospital } from 'node_modules/react-icons/fa';
 
-export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+interface Patient {
+  uid: string;
+  name: string;
+  age: number;
+  gender: string;
+  bloodGroup: string;
+  lastVisit: string;
+}
 
-  // Updated navigation links with new styling
-  const navigationLinks = [ 
-    {
-      title: 'Surgeon',
-      description: 'Heart Surgeon',
-      href: '/doctor',
-      icon: <FaUserMd className="text-2xl text-black" />,
-      time: '09:00 am',
-      date: '13 Jul 2022'
-    },
-    {
-      title: 'Medicine',
-      description: 'Specialist',
-      href: '/patient',
-      icon: <FaPills className="text-2xl text-black" />,
-      time: '01:00 pm',
-      date: '16 Jul 2022'
-    }
-  ];
+interface MedicalHistory {
+  id: string;
+  date: string;
+  diagnosis: string;
+  symptoms: string[];
+  notes: string;
+}
+
+interface Prescription {
+  id: string;
+  date: string;
+  medicines: {
+    name: string;
+    dosage: string;
+    duration: string;
+  }[];
+  isActive: boolean;
+}
+
+export default function DoctorDashboard() {
+  const [patientUid, setPatientUid] = useState('');
+  const [activeTab, setActiveTab] = useState<'history' | 'prescriptions'>('history');
+  const [patient, setPatient] = useState<Patient | null>(null);
+  const [showNewHistoryForm, setShowNewHistoryForm] = useState(false);
+  const [showNewPrescriptionForm, setShowNewPrescriptionForm] = useState(false);
+
+  const handlePatientSearch = () => {
+    // Mock patient data - replace with actual API call
+    setPatient({
+      uid: patientUid,
+      name: "John Doe",
+      age: 35,
+      gender: "Male",
+      bloodGroup: "O+",
+      lastVisit: "2024-02-15"
+    });
+  };
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-white">
-        {/* Sidebar - make it collapsible on mobile */}
-        <aside className="fixed left-0 top-0 h-screen w-12 md:w-16 bg-white flex flex-col items-center py-4 md:py-6 space-y-6 md:space-y-8 z-50">
-          <button className="p-1.5 md:p-2 rounded-xl bg-gray-100 text-black">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          
-          <nav className="flex flex-col space-y-4 md:space-y-6">
-            <Link href="/" className="p-2 rounded-xl bg-black text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
+      <div className="min-h-screen bg-gray-50 flex">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white border-r border-gray-200 fixed h-full">
+          <div className="p-6">
+            <Link href="/" className="text-xl font-light text-teal-600">
+              hippo<span className="font-bold">card</span>
             </Link>
-            <Link href="/results" className="p-2 rounded-xl text-gray-400 hover:text-black">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </Link>
-            <Link href="/history" className="p-2 rounded-xl text-gray-400 hover:text-black">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </Link>
+          </div>
+          <nav className="mt-6">
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`w-full flex items-center px-6 py-3 text-sm ${
+                activeTab === 'history' 
+                  ? 'bg-teal-50 text-teal-600 border-r-4 border-teal-600' 
+                  : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              <FaHistory className="w-5 h-5 mr-3" />
+              Medical History
+            </button>
+            <button
+              onClick={() => setActiveTab('prescriptions')}
+              className={`w-full flex items-center px-6 py-3 text-sm ${
+                activeTab === 'prescriptions' 
+                  ? 'bg-teal-50 text-teal-600 border-r-4 border-teal-600' 
+                  : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              <FaPrescription className="w-5 h-5 mr-3" />
+              Prescriptions
+            </button>
           </nav>
         </aside>
 
-        {/* Main Content - adjust padding and spacing */}
-        <div className="ml-12 md:ml-16 p-4 md:p-8">
-          {/* Header - stack elements on mobile */}
-          <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 space-y-4 sm:space-y-0">
-            <div>
-              <h1 className="text-xl md:text-2xl font-semibold text-gray-800">
-                Welcome back, <span className="text-black">Samelina!</span>
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4 w-full sm:w-auto">
-              <div className="relative flex-1 sm:flex-initial">
+        {/* Main Content */}
+        <main className="ml-64 flex-1 p-8">
+          {/* Header */}
+          <header className="flex justify-between items-center mb-8">
+            <div className="flex-1 max-w-xl">
+              <div className="relative">
                 <input
-                  type="search"
-                  placeholder="Search"
-                  className="w-full sm:w-auto pl-10 pr-4 py-2 rounded-lg bg-white border-none focus:ring-2 focus:ring-black"
+                  type="text"
+                  value={patientUid}
+                  onChange={(e) => setPatientUid(e.target.value)}
+                  placeholder="Enter Patient UID"
+                  className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-600"
                 />
-                <svg className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0">
-                <img src="/avatar.jpg" alt="Profile" className="w-full h-full rounded-full object-cover" />
+                <FaSearch className="absolute left-4 top-4 text-gray-400" />
+                <button
+                  onClick={handlePatientSearch}
+                  className="absolute right-2 top-2 px-4 py-1.5 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                >
+                  Search
+                </button>
               </div>
             </div>
           </header>
 
-          {/* Treatment Section - adjust grid columns */}
-          <section className="mb-6 md:mb-8">
-            <h2 className="text-base md:text-lg font-medium text-gray-700 mb-3 md:mb-4">Your treatment</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-              {navigationLinks.map((link) => (
-                <div key={link.title} className="bg-white p-4 md:p-6 rounded-xl shadow-sm">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3 md:space-x-4">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                        {link.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-800">{link.title}</h3>
-                        <p className="text-sm text-gray-500">{link.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 md:mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
-                    <div className="text-sm text-gray-500">
-                      <p>Date: {link.date}</p>
-                      <p>Time: {link.time}</p>
-                    </div>
-                    <button className="w-full sm:w-auto px-4 py-2 bg-black text-white rounded-lg text-sm">
-                      Appointment
-                    </button>
+          {/* Patient Info Card */}
+          {patient && (
+            <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">{patient.name}</h2>
+                  <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-gray-600">
+                    <div>UID: {patient.uid}</div>
+                    <div>Age: {patient.age}</div>
+                    <div>Gender: {patient.gender}</div>
+                    <div>Blood Group: {patient.bloodGroup}</div>
                   </div>
                 </div>
-              ))}
+                <div className="text-sm text-gray-500">
+                  Last Visit: {patient.lastVisit}
+                </div>
+              </div>
             </div>
-          </section>
+          )}
 
-          {/* Choose a doctor section - adjust grid columns */}
-          <section>
-            <h2 className="text-base md:text-lg font-medium text-gray-700 mb-3 md:mb-4">Choose a doctor</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              {/* Doctor cards */}
-              <div className="bg-white p-3 md:p-4 rounded-xl shadow-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-200"></div>
-                  <div>
-                    <h3 className="font-medium text-gray-800">Dr. Isma Currie</h3>
-                    <p className="text-sm text-gray-500">Dentist</p>
-                  </div>
-                </div>
+          {/* Content Area */}
+          {activeTab === 'history' ? (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-900">Medical History</h2>
+                <button
+                  onClick={() => setShowNewHistoryForm(true)}
+                  className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                >
+                  <FaPlus className="mr-2" />
+                  Add New Entry
+                </button>
               </div>
-              <div className="bg-white p-3 md:p-4 rounded-xl shadow-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-200"></div>
-                  <div>
-                    <h3 className="font-medium text-gray-800">Dr. Fiona Franklin</h3>
-                    <p className="text-sm text-gray-500">Dermatologist</p>
-                  </div>
-                </div>
+              {/* Medical History List */}
+              <div className="grid gap-4">
+                {/* Add your medical history entries here */}
               </div>
             </div>
-          </section>
-        </div>
+          ) : (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-900">Prescriptions</h2>
+                <button
+                  onClick={() => setShowNewPrescriptionForm(true)}
+                  className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                >
+                  <FaPlus className="mr-2" />
+                  New Prescription
+                </button>
+              </div>
+              {/* Prescriptions Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Add your prescription cards here */}
+              </div>
+            </div>
+          )}
+        </main>
       </div>
     </PageTransition>
   );
