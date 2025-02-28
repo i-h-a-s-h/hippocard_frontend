@@ -95,134 +95,136 @@ export default function PharmacyDashboard() {
   return (
     <PageTransition>
       <div className="min-h-screen bg-gray-50 flex relative overflow-hidden">
-        {/* Background patterns */}
-        <div className="absolute inset-0 opacity-5">
+        {/* Minimal Background Pattern */}
+        <div className="absolute inset-0 opacity-[0.02]">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0h30v60H15z' fill='%230D9488' fill-opacity='0.4'/%3E%3Cpath d='M0 15h60v30H0z' fill='%230D9488' fill-opacity='0.4'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0h30v60H15z' fill='%230D9488' fill-opacity='0.4'/%3E%3C/svg%3E")`,
             backgroundSize: '30px 30px',
-            animation: 'slide 20s linear infinite'
+            animation: 'slide 30s linear infinite'
           }} />
         </div>
 
+        {/* Pulsing Radial Gradient */}
         <div style={pulsingBackground} />
 
         {/* Main Content */}
-        <main className="flex-1 p-8 relative z-10">
-          {/* Dashboard Header */}
+        <main className="flex-1 p-12 relative z-10">
+          {/* Enhanced Dashboard Header */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white rounded-xl shadow-sm p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
+            className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-8 mb-8 hover:shadow-lg transition-all duration-300"
           >
-            <div className="flex justify-between items-start">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-teal-50 rounded-xl">
+                <FaPrescription className="w-8 h-8 text-teal-600" />
+              </div>
               <div>
-                <h2 className="text-xl font-semibold text-black">Pharmacy Dashboard</h2>
-                <p className="text-sm text-black mt-2">View active prescriptions</p>
+                <h2 className="text-2xl font-light text-gray-900">Pharmacy Dashboard</h2>
+                <p className="text-sm text-gray-600 mt-1">Manage active prescriptions</p>
               </div>
             </div>
           </motion.div>
 
+          {/* Refined Search and Filters */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ staggerChildren: 0.1 }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-6 mb-8"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-black">Active Prescriptions</h2>
-            </div>
-
-            {/* Simplified Filters and Search */}
-            <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-              <div className="flex gap-4 flex-wrap">
-                <div className="flex-1 min-w-[200px]">
-                  <input
-                    type="text"
-                    placeholder="Search medicines..."
-                    value={prescriptionSearch}
-                    onChange={(e) => setPrescriptionSearch(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black placeholder-gray-500"
-                  />
-                </div>
-                <select
-                  value={prescriptionSort}
-                  onChange={(e) => setPrescriptionSort(e.target.value as 'date')}
-                  className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                >
-                  <option value="date">Sort by Date</option>
-                </select>
+            <div className="flex gap-4 flex-wrap">
+              <div className="flex-1 min-w-[300px] relative">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search medicines..."
+                  value={prescriptionSearch}
+                  onChange={(e) => setPrescriptionSearch(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-600 focus:border-transparent"
+                />
               </div>
-            </div>
-
-            {/* Prescriptions Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredAndSortedPrescriptions.map((prescription, index) => (
-                <motion.div
-                  key={prescription.id}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
-                  className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500 hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <p className="text-sm text-black">{prescription.date}</p>
-                    <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-black">
-                        Active
-                      </span>
-                      <button
-                        onClick={() => handleToggleStatus(prescription.id)}
-                        className="px-2 py-1 text-sm bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition-colors"
-                        title="Mark as Inactive"
-                      >
-                        Deactivate
-                      </button>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    {prescription.medicines.map((medicine, index) => (
-                      <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                        <h4 className="font-medium text-black">{medicine.name}</h4>
-                        <div className="text-sm text-black mt-1">
-                          <p>Dosage: {medicine.dosage}</p>
-                          <p>Duration: {medicine.duration}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
+              <select
+                value={prescriptionSort}
+                onChange={(e) => setPrescriptionSort(e.target.value as 'date')}
+                className="px-6 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-600 text-gray-700"
+              >
+                <option value="date">Sort by Date</option>
+              </select>
             </div>
           </motion.div>
+
+          {/* Prescriptions Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredAndSortedPrescriptions.map((prescription, index) => (
+              <motion.div
+                key={prescription.id}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border-l-4 border-green-500"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <p className="text-sm text-gray-600">{prescription.date}</p>
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full text-sm bg-green-50 text-green-700">
+                      Active
+                    </span>
+                    <button
+                      onClick={() => handleToggleStatus(prescription.id)}
+                      className="px-3 py-1 text-sm bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors"
+                      title="Mark as Inactive"
+                    >
+                      Deactivate
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {prescription.medicines.map((medicine, index) => (
+                    <div key={index} className="p-4 bg-gray-50 rounded-xl">
+                      <h4 className="font-medium text-gray-900">{medicine.name}</h4>
+                      <div className="text-sm text-gray-600 mt-2 space-y-1">
+                        <p className="flex items-center gap-2">
+                          <span className="w-16">Dosage:</span>
+                          {medicine.dosage}
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <span className="w-16">Duration:</span>
+                          {medicine.duration}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </main>
       </div>
 
-      {/* Animations */}
+      {/* Refined Animations */}
       <style jsx global>{`
         @keyframes slide {
           0% { background-position: 0 0; }
           100% { background-position: 100% 100%; }
         }
 
-        @keyframes pulse {
-          0% { opacity: 0.5; }
-          50% { opacity: 0.8; }
-          100% { opacity: 0.5; }
-        }
-
-        .font-geist {
-          font-family: var(--font-geist-sans);
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+          100% { transform: translateY(0px); }
         }
 
         * {
-          transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+          transition: all 0.3s ease-in-out;
         }
 
         .hover-scale {
-          transition: transform 0.2s;
+          transition: transform 0.2s ease-in-out;
         }
+        
         .hover-scale:hover {
-          transform: scale(1.01);
+          transform: scale(1.02);
         }
       `}</style>
     </PageTransition>

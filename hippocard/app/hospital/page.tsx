@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
 import { FaUserInjured, FaHistory, FaPrescription, FaSearch, FaFilter, FaPlus, 
-         FaCalendarAlt, FaClock, FaHospital, FaHospitalUser } from 'node_modules/react-icons/fa';
+         FaCalendarAlt, FaClock, FaHospital } from 'node_modules/react-icons/fa';
 
 interface Patient {
   uid: string;
@@ -180,35 +180,35 @@ export default function PatientDashboard() {
   return (
     <PageTransition>
       <div className="min-h-screen bg-gray-50 flex relative overflow-hidden">
-        {/* Simplified Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
+        {/* DNA Helix Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0h30v60H15z' fill='%230D9488' fill-opacity='0.4'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0h30v60H15z' fill='%230D9488' fill-opacity='0.4'/%3E%3Cpath d='M0 15h60v30H0z' fill='%230D9488' fill-opacity='0.4'/%3E%3C/svg%3E")`,
             backgroundSize: '30px 30px',
-            animation: 'slide 30s linear infinite'
+            animation: 'slide 20s linear infinite'
           }} />
         </div>
 
         {/* Pulsing Radial Gradient */}
         <div style={pulsingBackground} />
 
-        {/* Refined Sidebar */}
+        {/* Sidebar */}
         <motion.aside 
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-100 fixed h-full z-20"
+          className="w-64 bg-white border-r border-gray-200 fixed h-full z-20"
         >
-          <div className="p-8">
-            <Link href="/" className="text-2xl font-light text-teal-600">
+          <div className="p-6">
+            <Link href="/" className="text-xl font-light text-teal-600">
               hippo<span className="font-bold">card</span>
             </Link>
           </div>
-          <nav className="mt-8 px-4">
+          <nav className="mt-6">
             <button
               onClick={() => setActiveTab('history')}
-              className={`w-full flex items-center px-6 py-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+              className={`w-full flex items-center px-6 py-3 text-sm ${
                 activeTab === 'history' 
-                  ? 'bg-teal-50 text-teal-600' 
+                  ? 'bg-teal-50 text-teal-600 border-r-4 border-teal-600' 
                   : 'text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -217,9 +217,9 @@ export default function PatientDashboard() {
             </button>
             <button
               onClick={() => setActiveTab('prescriptions')}
-              className={`w-full flex items-center px-6 py-4 rounded-xl text-sm font-medium mt-2 transition-all duration-300 ${
+              className={`w-full flex items-center px-6 py-3 text-sm ${
                 activeTab === 'prescriptions' 
-                  ? 'bg-teal-50 text-teal-600' 
+                  ? 'bg-teal-50 text-teal-600 border-r-4 border-teal-600' 
                   : 'text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -230,37 +230,24 @@ export default function PatientDashboard() {
         </motion.aside>
 
         {/* Main Content */}
-        <main className="ml-64 flex-1 p-12 relative z-10">
-          {/* Enhanced Patient Info Card */}
+        <main className="ml-64 flex-1 p-8 relative z-10">
+          {/* Patient Info Card */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-8 mb-12 hover:shadow-lg transition-all duration-300"
+            className="bg-white rounded-xl shadow-sm p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
           >
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-2xl font-light text-gray-900">John Doe</h2>
-                <div className="mt-4 grid grid-cols-2 gap-6 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <FaUserInjured className="text-teal-600" />
-                    UID: P12345
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaCalendarAlt className="text-teal-600" />
-                    Age: 35
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaHospitalUser className="text-teal-600" />
-                    Gender: Male
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaHospital className="text-teal-600" />
-                    Blood Group: O+
-                  </div>
+                <h2 className="text-xl font-semibold text-black">John Doe</h2>
+                <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-black">
+                  <div>UID: P12345</div>
+                  <div>Age: 35</div>
+                  <div>Gender: Male</div>
+                  <div>Blood Group: O+</div>
                 </div>
               </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <FaClock className="mr-2 text-teal-600" />
+              <div className="text-sm text-black">
                 Last Visit: 2024-02-15
               </div>
             </div>
@@ -436,7 +423,7 @@ export default function PatientDashboard() {
         </main>
       </div>
 
-      {/* Refined Animations */}
+      {/* Add animations to global CSS */}
       <style jsx global>{`
         @keyframes slide {
           0% { background-position: 0 0; }
@@ -449,22 +436,21 @@ export default function PatientDashboard() {
           100% { opacity: 0.5; }
         }
 
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
+        .font-geist {
+          font-family: var(--font-geist-sans);
         }
 
+        /* Add smooth transitions */
         * {
-          transition: all 0.3s ease-in-out;
+          transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
 
+        /* Hover effects */
         .hover-scale {
-          transition: transform 0.2s ease-in-out;
+          transition: transform 0.2s;
         }
-        
         .hover-scale:hover {
-          transform: scale(1.02);
+          transform: scale(1.01);
         }
       `}</style>
     </PageTransition>
