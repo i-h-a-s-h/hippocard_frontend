@@ -5,17 +5,71 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'node_modules/framer-motion';
 import PageTransition from '@/components/PageTransition';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [userType, setUserType] = useState('patient');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [uid, setUid] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    uid: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your login logic here
+    
+    if (!agreeToTerms) {
+      setError('Please agree to the terms and conditions');
+      return;
+    }
+
+    if (!formData.name || !formData.email || !formData.password || !formData.uid) {
+      setError('All fields are required');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          userType,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create account');
+      }
+
+      // Redirect to login page on success
+      router.push('/login?registered=true');
+      
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,6 +123,12 @@ export default function RegisterPage() {
                   Create your account
                 </h2>
 
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg">
+                    {error}
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -76,7 +136,10 @@ export default function RegisterPage() {
                     </label>
                     <input
                       id="name"
+                      name="name"
                       type="text"
+                      value={formData.name}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                       placeholder="Enter your name"
                       required
@@ -89,9 +152,10 @@ export default function RegisterPage() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                       placeholder="Enter your email"
                       required
@@ -104,11 +168,28 @@ export default function RegisterPage() {
                     </label>
                     <input
                       id="password"
+                      name="password"
                       type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                       placeholder="Enter your password"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="uid" className="block text-sm font-medium text-gray-700 mb-2">
+                      {userType.charAt(0).toUpperCase() + userType.slice(1)} UID
+                    </label>
+                    <input
+                      id="uid"
+                      name="uid"
+                      type="text"
+                      value={formData.uid}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                      placeholder={`Enter your ${userType} UID`}
                       required
                     />
                   </div>
@@ -129,9 +210,12 @@ export default function RegisterPage() {
                   <div className="space-y-4">
                     <button
                       type="submit"
-                      className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      disabled={loading}
+                      className={`w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium ${
+                        loading ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                     >
-                      Sign Up
+                      {loading ? 'Creating Account...' : 'Sign Up'}
                     </button>
 
                     <p className="text-center text-sm text-gray-600">
