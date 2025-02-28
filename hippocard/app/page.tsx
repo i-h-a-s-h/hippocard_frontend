@@ -52,7 +52,7 @@ const stats = [
   const navigationLinks = [
     {
     title: 'Patient Portal',
-    href: '/patient/page.tsx',
+    href: '/patient/',
     description: 'View health records, appointments, and test results',
     icon: <FaUserInjured className="text-2xl mb-2 text-teal-600" />
   },
@@ -70,7 +70,7 @@ const stats = [
   },
   {
     title: 'Pharmacy Services',
-    href: '/pharmacy',
+    href: '/pharmacy/',
     description: 'Process prescriptions and manage inventory',
     icon: <FaPills className="text-2xl mb-2 text-teal-600" />
   }
@@ -257,13 +257,6 @@ export default function HomePage() {
                 >
                   Get Started
                 </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 border-2 border-teal-600 text-teal-600 rounded-lg hover:bg-teal-50 transition-colors"
-                >
-                  Learn More
-                </motion.button>
               </div>
             </motion.div>
         </motion.section>
@@ -420,23 +413,6 @@ export default function HomePage() {
               </motion.div>
             </div>
           </motion.section>
-
-          {/* Call to Action Section */}
-          <motion.section 
-            className="py-20 text-center bg-white rounded-2xl shadow-lg my-20"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <h2 className="text-4xl font-medium mb-8 text-gray-900">Ready to get started?</h2>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-lg font-medium"
-            >
-              Create Account
-            </motion.button>
-        </motion.section>
       </motion.main>
 
       {/* Footer */}

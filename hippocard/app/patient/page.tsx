@@ -55,10 +55,8 @@ interface NewPrescriptionFormData {
   isActive: boolean;
 }
 
-export default function DoctorDashboard() {
+export default function PatientDashboard() {
   const [activeTab, setActiveTab] = useState<'history' | 'prescriptions'>('history');
-  const [showNewHistoryForm, setShowNewHistoryForm] = useState(false);
-  const [showNewPrescriptionForm, setShowNewPrescriptionForm] = useState(false);
   const [medicalHistories, setMedicalHistories] = useState<MedicalHistory[]>([
     {
       id: '1',
@@ -108,32 +106,6 @@ export default function DoctorDashboard() {
       return severityOrder[b.severity] - severityOrder[a.severity];
     });
 
-  // Add form state
-  const [newHistoryForm, setNewHistoryForm] = useState<NewHistoryFormData>({
-    diagnosis: '',
-    symptoms: '',
-    notes: '',
-    severity: 'medium'
-  });
-
-  // Update the handleAddHistory function
-  const handleAddHistory = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newHistory: Omit<MedicalHistory, 'id'> = {
-      date: new Date().toISOString().split('T')[0],
-      diagnosis: newHistoryForm.diagnosis,
-      symptoms: newHistoryForm.symptoms.split(',').map(s => s.trim()),
-      notes: newHistoryForm.notes,
-      doctor: 'Dr. Smith', // You can make this dynamic based on logged-in doctor
-      severity: newHistoryForm.severity
-    };
-
-    const id = (medicalHistories.length + 1).toString();
-    setMedicalHistories([{ ...newHistory, id }, ...medicalHistories]);
-    setNewHistoryForm({ diagnosis: '', symptoms: '', notes: '', severity: 'medium' });
-    setShowNewHistoryForm(false);
-  };
-
   // Add prescription data
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([
     {
@@ -177,7 +149,6 @@ export default function DoctorDashboard() {
   const [prescriptionFilter, setPrescriptionFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [prescriptionSearch, setPrescriptionSearch] = useState('');
 
-  // Add sorting and filtering logic
   const filteredAndSortedPrescriptions = prescriptions
     .filter(prescription => {
       const matchesSearch = prescription.medicines.some(med => 
@@ -193,50 +164,6 @@ export default function DoctorDashboard() {
       }
       return Number(b.isActive) - Number(a.isActive);
     });
-
-  // Add prescription form state
-  const [newPrescriptionForm, setNewPrescriptionForm] = useState<NewPrescriptionFormData>({
-    medicines: [{ name: '', dosage: '', duration: '' }],
-    isActive: true
-  });
-
-  // Add this function to handle adding new medicines to the form
-  const addMedicine = () => {
-    setNewPrescriptionForm({
-      ...newPrescriptionForm,
-      medicines: [...newPrescriptionForm.medicines, { name: '', dosage: '', duration: '' }]
-    });
-  };
-
-  // Add this function to handle removing medicines from the form
-  const removeMedicine = (index: number) => {
-    setNewPrescriptionForm({
-      ...newPrescriptionForm,
-      medicines: newPrescriptionForm.medicines.filter((_, i) => i !== index)
-    });
-  };
-
-  // Add this function to handle form submission
-  const handleAddPrescription = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newPrescription: Omit<Prescription, 'id' | 'date'> = {
-      medicines: newPrescriptionForm.medicines,
-      isActive: newPrescriptionForm.isActive
-    };
-
-    const id = (prescriptions.length + 1).toString();
-    setPrescriptions([{
-      ...newPrescription,
-      id,
-      date: new Date().toISOString().split('T')[0]
-    }, ...prescriptions]);
-    
-    setNewPrescriptionForm({
-      medicines: [{ name: '', dosage: '', duration: '' }],
-      isActive: true
-    });
-    setShowNewPrescriptionForm(false);
-  };
 
   const pulsingBackground: React.CSSProperties = {
     position: 'absolute',
@@ -311,14 +238,14 @@ export default function DoctorDashboard() {
             className="bg-white rounded-xl shadow-sm p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
           >
             <div className="flex justify-between items-start">
-            <div>
+              <div>
                 <h2 className="text-xl font-semibold text-black">John Doe</h2>
                 <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-black">
                   <div>UID: P12345</div>
                   <div>Age: 35</div>
                   <div>Gender: Male</div>
                   <div>Blood Group: O+</div>
-            </div>
+                </div>
               </div>
               <div className="text-sm text-black">
                 Last Visit: 2024-02-15
@@ -326,7 +253,6 @@ export default function DoctorDashboard() {
             </div>
           </motion.div>
 
-          {/* Medical History Cards */}
           {activeTab === 'history' ? (
             <motion.div
               initial={{ opacity: 0 }}
@@ -335,13 +261,6 @@ export default function DoctorDashboard() {
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-black">Medical History</h2>
-                <button
-                  onClick={() => setShowNewHistoryForm(true)}
-                  className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                >
-                  <FaPlus className="mr-2" />
-                  Add New Entry
-                </button>
               </div>
 
               {/* Filters and Search */}
@@ -375,7 +294,7 @@ export default function DoctorDashboard() {
                     <option value="high">High</option>
                   </select>
                 </div>
-                      </div>
+              </div>
 
               {/* Medical History List */}
               <div className="grid gap-4">
@@ -418,113 +337,7 @@ export default function DoctorDashboard() {
                     </div>
                   </motion.div>
                 ))}
-                  </div>
-
-              {/* Add New History Form Modal */}
-              {showNewHistoryForm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                  <motion.div 
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white rounded-lg p-6 max-w-md w-full"
-                  >
-                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-lg font-semibold text-black">Add New Medical History</h3>
-                      <button
-                        onClick={() => setShowNewHistoryForm(false)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        ×
-                      </button>
-                    </div>
-
-                    <form onSubmit={handleAddHistory} className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Diagnosis
-                        </label>
-                        <input
-                          type="text"
-                          value={newHistoryForm.diagnosis}
-                          onChange={(e) => setNewHistoryForm({
-                            ...newHistoryForm,
-                            diagnosis: e.target.value
-                          })}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Symptoms (comma-separated)
-                        </label>
-                        <input
-                          type="text"
-                          value={newHistoryForm.symptoms}
-                          onChange={(e) => setNewHistoryForm({
-                            ...newHistoryForm,
-                            symptoms: e.target.value
-                          })}
-                          placeholder="Fever, Cough, Headache"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Notes
-                        </label>
-                        <textarea
-                          value={newHistoryForm.notes}
-                          onChange={(e) => setNewHistoryForm({
-                            ...newHistoryForm,
-                            notes: e.target.value
-                          })}
-                          rows={3}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Severity
-                        </label>
-                        <select
-                          value={newHistoryForm.severity}
-                          onChange={(e) => setNewHistoryForm({
-                            ...newHistoryForm,
-                            severity: e.target.value as 'low' | 'medium' | 'high'
-                          })}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                        >
-                          <option value="low">Low</option>
-                          <option value="medium">Medium</option>
-                          <option value="high">High</option>
-                        </select>
-                      </div>
-
-                      <div className="flex justify-end gap-4 mt-6">
-                        <button
-                          type="button"
-                          onClick={() => setShowNewHistoryForm(false)}
-                          className="px-4 py-2 bg-gray-100 text-black rounded-lg hover:bg-gray-200 transition-colors"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
-                        >
-                          Save Entry
-                    </button>
-                  </div>
-                    </form>
-                  </motion.div>
-                </div>
-              )}
+              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -534,14 +347,7 @@ export default function DoctorDashboard() {
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-black">Prescriptions</h2>
-                <button
-                  onClick={() => setShowNewPrescriptionForm(true)}
-                  className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                >
-                  <FaPlus className="mr-2" />
-                  New Prescription
-                </button>
-            </div>
+              </div>
 
               {/* Filters and Search */}
               <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
@@ -605,157 +411,13 @@ export default function DoctorDashboard() {
                           <div className="text-sm text-black mt-1">
                             <p>Dosage: {medicine.dosage}</p>
                             <p>Duration: {medicine.duration}</p>
-                  </div>
-                </div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </motion.div>
                 ))}
               </div>
-
-              {/* Add New Prescription Form Modal */}
-              {showNewPrescriptionForm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                  <motion.div 
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white rounded-lg p-6 max-w-2xl w-full"
-                  >
-                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-lg font-semibold text-black">Add New Prescription</h3>
-                      <button
-                        onClick={() => setShowNewPrescriptionForm(false)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        ×
-                      </button>
-                    </div>
-
-                    <form onSubmit={handleAddPrescription} className="space-y-4">
-                      <div className="space-y-4">
-                        {newPrescriptionForm.medicines.map((medicine, index) => (
-                          <div key={index} className="p-4 bg-gray-50 rounded-lg space-y-3">
-                            <div className="flex justify-between items-center">
-                              <h4 className="text-sm font-medium text-black">Medicine {index + 1}</h4>
-                              {index > 0 && (
-                                <button
-                                  type="button"
-                                  onClick={() => removeMedicine(index)}
-                                  className="text-red-500 hover:text-red-700"
-                                >
-                                  Remove
-                                </button>
-                              )}
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                              <div>
-                                <label className="block text-sm font-medium text-black mb-2">
-                                  Name
-                                </label>
-                                <input
-                                  type="text"
-                                  value={medicine.name}
-                                  onChange={(e) => {
-                                    const newMedicines = [...newPrescriptionForm.medicines];
-                                    newMedicines[index].name = e.target.value;
-                                    setNewPrescriptionForm({
-                                      ...newPrescriptionForm,
-                                      medicines: newMedicines
-                                    });
-                                  }}
-                                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                                  required
-                                />
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-black mb-2">
-                                  Dosage
-                                </label>
-                                <input
-                                  type="text"
-                                  value={medicine.dosage}
-                                  onChange={(e) => {
-                                    const newMedicines = [...newPrescriptionForm.medicines];
-                                    newMedicines[index].dosage = e.target.value;
-                                    setNewPrescriptionForm({
-                                      ...newPrescriptionForm,
-                                      medicines: newMedicines
-                                    });
-                                  }}
-                                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                                  required
-                                />
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-black mb-2">
-                                  Duration
-                                </label>
-                                <input
-                                  type="text"
-                                  value={medicine.duration}
-                                  onChange={(e) => {
-                                    const newMedicines = [...newPrescriptionForm.medicines];
-                                    newMedicines[index].duration = e.target.value;
-                                    setNewPrescriptionForm({
-                                      ...newPrescriptionForm,
-                                      medicines: newMedicines
-                                    });
-                                  }}
-                                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600 text-black"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={addMedicine}
-                        className="w-full px-4 py-2 bg-gray-100 text-black rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        + Add Another Medicine
-                      </button>
-
-                      <div className="flex items-center space-x-2 mt-4">
-                        <input
-                          type="checkbox"
-                          id="isActive"
-                          checked={newPrescriptionForm.isActive}
-                          onChange={(e) => setNewPrescriptionForm({
-                            ...newPrescriptionForm,
-                            isActive: e.target.checked
-                          })}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-600 border-gray-300 rounded"
-                        />
-                        <label htmlFor="isActive" className="text-sm text-black">
-                          Set as Active Prescription
-                        </label>
-                      </div>
-
-                      <div className="flex justify-end gap-4 mt-6">
-                        <button
-                          type="button"
-                          onClick={() => setShowNewPrescriptionForm(false)}
-                          className="px-4 py-2 bg-gray-100 text-black rounded-lg hover:bg-gray-200 transition-colors"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
-                        >
-                          Save Prescription
-                        </button>
-            </div>
-                    </form>
-                  </motion.div>
-        </div>
-              )}
             </motion.div>
           )}
         </main>
